@@ -3,27 +3,23 @@ import java.awt.*;
 
 public class CrossNet {
     private final int x, y, width, height;
-    private final Point position;
-    private final ImageIcon image;
+    private final Image image;
+    private final Rectangle hitbox;
 
     public CrossNet(JPanel panel, Config config) {
-        image = Utils.createImageIcon(config.getCrossNet());
+        image = Utils.reader(config.getCrossNet());
 
-        width = image.getIconWidth();
-        height = image.getIconHeight();
+        width = image.getWidth(null);
+        height = image.getHeight(null);
 
-        x = (panel.getWidth() / 2) - (width / 2);
-        y = (panel.getHeight()) - (height);
+        x = (panel.getWidth()- width) /2;
+        y = (panel.getHeight()) - (height/2);
 
-        this.position = new Point(x, y);
+        hitbox = new Rectangle(x, y, width, height);
     }
 
-    public ImageIcon getImage() {
+    public Image getImage() {
         return image;
-    }
-
-    public Point getPosition() {
-        return position;
     }
 
     public int getX() {
@@ -43,6 +39,6 @@ public class CrossNet {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(x, y, width, height);
+        return hitbox;
     }
 }

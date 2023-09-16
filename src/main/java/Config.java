@@ -10,7 +10,7 @@ public class Config {
     private final String background;
     private final String[] player = new String[2];
     private final String ball, crossNet;
-
+    private boolean isResizable;
 
 
     public Config(String[] args) {
@@ -27,10 +27,9 @@ public class Config {
         player[0] = config.get("playerLeft").asText();
         player[1] = config.get("playerRight").asText();
         crossNet = config.get("crossNet").asText();
-        //ball = config.get("ball").asText();
+        ball = config.get("ball").asText();
 
         background = null;
-        ball = null;
 
 
         new UI(this);
@@ -70,4 +69,7 @@ public class Config {
         return args;
     }
 
+    public boolean isResizable() {
+        return isResizable;
+    }
 }

@@ -1,9 +1,10 @@
 {
   "title": "V-Ball",
-  "frameWidth": 500,
-  "frameHeight": 500,
-  "frameRate": 60,
+  "frameWidth": 800,
+  "frameHeight": 800,
+  "frameRate": 360,
   "playerLeft": "Images/PlayerRed.png",
   "playerRight": "Images/PlayerGreen.png",
-  "crossNet": "Images/CrossNet.png"
+  "crossNet": "Images/CrossNet.png",
+  "ball": "Images/Ball.png"
 }

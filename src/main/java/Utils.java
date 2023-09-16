@@ -34,24 +34,10 @@ public class Utils {
             bufferedImageCache.put(resource, image); // Adds the image to the cache
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.print(e.getMessage());
         }
         if (image == null) throw new IllegalArgumentException("The image could not be loaded: " + resource);
         return image;
-    }
-
-    public static ImageIcon createImageIcon(String resource) {
-        if (imageIconCache.containsKey(resource)) return imageIconCache.get(resource); // Checks if the path has already been loaded
-        ImageIcon imageIcon;
-        if (resource.endsWith(".png")) {
-            imageIcon = new ImageIcon(reader(resource)); // Creates an ImageIcon
-        } else if (resource.endsWith(".gif")) {
-            URL imageUrl = Utils.class.getClassLoader().getResource(resource);
-            imageIcon = new ImageIcon(Objects.requireNonNull(imageUrl));
-        } else throw new IllegalArgumentException("The image format is not supported: " + resource);
-
-        imageIconCache.put(resource, imageIcon); // Adds the image to the cache
-        return imageIcon;
     }
 
     public static Point centerFrame(JFrame frame) {

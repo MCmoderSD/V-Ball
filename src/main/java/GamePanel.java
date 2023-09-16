@@ -4,10 +4,11 @@ import java.awt.*;
 public class GamePanel extends JPanel implements Runnable{
     private final Thread thread;
     private final Controls controls;
-    public final Config config;
+    private final Config config;
     private final Player playerLeft, playerRight;
     private final CrossNet crossNet;
-    public Rectangle rPlayerLeft, rPlayerRight, rCrossNet;
+    private final Ball ball;
+    private boolean debug = true;
     public GamePanel(Config config) {
         this.config = config;
 
@@ -23,14 +24,16 @@ public class GamePanel extends JPanel implements Runnable{
         setFocusable(true);
 
 
-        playerLeft = new Player(config, 0);
-        playerRight = new Player(config, 1);
+        playerLeft = new Player(config, true);
+        playerRight = new Player(config, false);
 
         playerLeft.setLocation((getHeight() / 4) - (playerLeft.getWidth() / 2), getHeight() - playerLeft.getHeight());
         playerRight.setLocation((3 * (getWidth() / 4)) - (playerRight.getWidth() / 2), getHeight() - playerRight.getHeight());
 
         crossNet = new CrossNet(this, config);
-        rCrossNet = crossNet.getBounds();
+
+        ball = new Ball(config);
+        ball.setLocation((getWidth() - ball.getRadius()) / 2, (getHeight() - ball.getRadius()) / 2);
 
         thread = new Thread(this);
         thread.start();
@@ -58,9 +61,6 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update() {
-        rPlayerLeft = playerLeft.getBounds();
-        rPlayerRight = playerRight.getBounds();
-
         playerLeft.move(controls, this);
         playerRight.move(controls, this);
     }
@@ -71,10 +71,38 @@ public class GamePanel extends JPanel implements Runnable{
 
         Graphics2D g = (Graphics2D) graphics;
 
-        g.drawImage(playerLeft.getImage().getImage(), playerLeft.getX(), playerLeft.getY(), this);
-        g.drawImage(playerRight.getImage().getImage(), playerRight.getX(), playerRight.getY(), this);
-        g.drawImage(crossNet.getImage().getImage(), crossNet.getX(), crossNet.getY(), this);
+        g.drawImage(playerLeft.getImage(), playerLeft.getX(), playerLeft.getY(), this);
+        g.drawImage(playerRight.getImage(), playerRight.getX(), playerRight.getY(), this);
+        g.drawImage(crossNet.getImage(), crossNet.getX(), crossNet.getY(), this);
+        g.drawImage(ball.getImage(), ball.getX(), ball.getY(), this);
 
+        if (debug) {
+            g.setColor(Color.WHITE);
+            g.draw(crossNet.getBounds());
+            g.draw(playerLeft.getBounds());
+            g.draw(playerRight.getBounds());
+            g.drawOval(ball.getX(), ball.getY(), ball.getRadius(), ball.getRadius());
+        }
         g.dispose();
+    }
+
+    public Controls getControls() {
+        return controls;
+    }
+
+    public Player getPlayerLeft() {
+        return playerLeft;
+    }
+
+    public Player getPlayerRight() {
+        return playerRight;
+    }
+
+    public CrossNet getCrossNet() {
+        return crossNet;
+    }
+
+    public Config getConfig() {
+        return config;
     }
 }
