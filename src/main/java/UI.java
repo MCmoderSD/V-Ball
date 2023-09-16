@@ -11,6 +11,7 @@ public class UI {
         frame.add(gamePanel);
 
         frame.setLocation(Utils.centerFrame(frame));
+        frame.pack();
         frame.setVisible(true);
     }
 }

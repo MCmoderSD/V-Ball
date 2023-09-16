@@ -8,6 +8,8 @@ public class Player {
     private int x;
     private int y;
     private int speed = 10;
+    private int jumpHeight = 100;
+    private int fallSpeed;
     private int score;
     private int lives;
 
@@ -84,18 +86,18 @@ public class Player {
         return new Rectangle(x, y, image.getIconWidth(), image.getIconHeight());
     }
 
-    public void move(Controls controls, JPanel panel) {
+    public void move(Controls controls, GamePanel panel) {
+
+        if (y < panel.config.getFrameHeight() - getHeight()) y += fallSpeed;
 
         if (player == 0) {
-            if (controls.wPressed) y -= speed;
-            if (controls.sPressed) y += speed;
-            if (controls.dPressed) x += speed;
-            if (controls.aPressed) x -= speed;
+            if (controls.wPressed && y >= (panel.config.getFrameHeight()-getHeight())) fallSpeed = -jumpHeight;
+            if (controls.dPressed && !panel.rPlayerLeft.intersects(panel.rCrossNet)) x += speed;
+            if (controls.aPressed && x >= 0) x -= speed;
         } else if (player == 1) {
-            if (controls.upPressed) y -= speed;
-            if (controls.downPressed) y += speed;
-            if (controls.rightPressed) x += speed;
-            if (controls.leftPressed) x -= speed;
+            if (controls.upPressed && y >= (panel.config.getFrameHeight() - getHeight())) y -= speed;
+            if (controls.rightPressed && x <= panel.config.getFrameWidth() - getWidth()) x += speed;
+            if (controls.leftPressed &&!panel.rPlayerRight.intersects(panel.rCrossNet)) x -= speed;
         }
     }
 }

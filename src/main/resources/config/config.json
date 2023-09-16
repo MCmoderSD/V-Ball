@@ -1,7 +1,7 @@
 {
   "title": "V-Ball",
-  "frameWidth": 800,
-  "frameHeight": 800,
+  "frameWidth": 500,
+  "frameHeight": 500,
   "frameRate": 60,
   "playerLeft": "Images/PlayerRed.png",
   "playerRight": "Images/PlayerGreen.png",

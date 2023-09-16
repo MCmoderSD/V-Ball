@@ -4,20 +4,18 @@ import java.awt.*;
 public class GamePanel extends JPanel implements Runnable{
     private final Thread thread;
     private final Controls controls;
-    private final Config config;
+    public final Config config;
     private final Player playerLeft, playerRight;
     private final CrossNet crossNet;
-    private Rectangle rPlayerLeft, rPlayerRight;
+    public Rectangle rPlayerLeft, rPlayerRight, rCrossNet;
     public GamePanel(Config config) {
         this.config = config;
 
         setLayout(null);
         setBounds(0, 0, config.getFrameWidth(), config.getFrameHeight());
-
         setPreferredSize(new Dimension(config.getFrameWidth(), config.getFrameHeight()));
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
-
 
         controls = new Controls();
 
@@ -28,10 +26,11 @@ public class GamePanel extends JPanel implements Runnable{
         playerLeft = new Player(config, 0);
         playerRight = new Player(config, 1);
 
-        playerLeft.setLocation((getHeight() / 4) - (playerLeft.getWidth() / 2), getHeight()-playerLeft.getHeight());
-        playerRight.setLocation((3 * (getWidth() / 4)) - (playerRight.getWidth() / 2), getHeight()-playerRight.getHeight());
+        playerLeft.setLocation((getHeight() / 4) - (playerLeft.getWidth() / 2), getHeight() - playerLeft.getHeight());
+        playerRight.setLocation((3 * (getWidth() / 4)) - (playerRight.getWidth() / 2), getHeight() - playerRight.getHeight());
 
         crossNet = new CrossNet(this, config);
+        rCrossNet = crossNet.getBounds();
 
         thread = new Thread(this);
         thread.start();
